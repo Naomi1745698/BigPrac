@@ -119,7 +119,7 @@ int main()
 	//spaceship(std::string name, int fuel);
 	spaceship *playerShip;
 	if(spaceshipType == 1){
-		playerShip = new gunship(spaceshipName,2*mapSize);
+		playerShip = new gunship(spaceshipName,mapSize);
 	}
 	if(spaceshipType == 2){
 	playerShip = new racer(spaceshipName,mapSize);
