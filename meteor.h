@@ -1,21 +1,19 @@
 #ifndef METEOR_H
 #define METEOR_H
+#include "astroObjects.h"
 
-//meteors move around the map randomly by 1-block each move
-//if a spaceship hits the meteor, health is deducted (this function is on the spaceship.h file)
 
-class meteor:public astroobjects{
+//Meteor class object
+//Moves around map automatically
+//Damages encountered spaceship
+//Damage dealt is based on meteor size
 
+
+class meteor : public astroObjects {
 public:
-	//constructors
 	meteor();
-
-	//setters
-	void move();
-
-	//constructors
-	~meteor();
-	
+	meteor(int size, int rowCoordinate, int columnCoordinate);
+	virtual ~meteor();
+	int getSize();
 };
-
 #endif
