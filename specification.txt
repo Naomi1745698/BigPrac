@@ -1,0 +1,31 @@
+OOP Major Practical
+Spaceship Game
+
+Objective is to move a spaceship object around a two-dimensional map, from a defined starting point to a defined destination.
+Starting point will be bottom-left of map. Destination will be top-right of map.
+
+Game is turn-based, where user moves the spaceship, then other objects move (if able).
+
+Space will be filled with the following objects:
+
+- a number of planets (random number, randomly seeded based on map size)
+	- planets are stationary
+	- able to refuel spaceships
+	- planet destroyed if resources depleted
+
+- a number of meteors (random number, randomly seeded based on map size)
+	- meteors will have a random size
+	- meteor size determines spaceship damage
+	- meteors will damage spaceships if the two objects meet in the same location
+	- meteors destroyed if they hit spaceships
+	- meteor movement random (to simplify coding)
+
+- 1 player spaceship
+	- player can choose between a gunship type or racer type spaceship
+	- gunship will be able to attack and destroy meteors
+	- gunship able to move one square per turn (one fuel cost)
+	- racer able to move two squares per turn (one fuel cost)
+	- movement uses fuel
+	- gunship attacks use fuel (one fuel cost per attack)
+	- meteor hit reduces spaceship hull health	
+	- spaceships can refuel at planets

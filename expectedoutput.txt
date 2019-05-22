@@ -1,0 +1,57 @@
+Enter map grid size from 5 to 20 (e.g. '5' = 5x5):
+5
+Please enter the name of your spaceship: Great! lets get started
+Gunship or Racer spaceship?
+1:Gunship
+2:Racer
+Please enter a valid input
+1:Gunship
+2:Racer
+Building your spaceship...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    m     p
+       m
+ g
+Navigate by entering options 1 - 5:
+Enter 8 to move up
+Enter 2 to move down
+Enter 4 to move left
+Enter 6 to move right
+Enter 5 to remain still
+Enter 0 to end game
+Game over!
+
+//do movement testing!
