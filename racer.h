@@ -11,8 +11,11 @@
 class racer : public spaceship {
 public:
 	racer();
-	racer(std::string name, float fuel);
-	virtual ~racer();
-	int getSize();
+	racer(std::string, int, int);
+	~racer();
+	int getHealth();
+	int getResources();
+	void setHealth(int);
+	void setResources(int);
 };
 #endif

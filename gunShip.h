@@ -11,10 +11,12 @@
 class gunship : public spaceship {
 public:
 	gunship();
-	gunship(std::string name, float fuel);
+	gunship(std::string, int, int);
 	//Movements from virtual classes
-	void moveUp();
-	virtual ~gunship();
-	int getSize();
+	~gunship();
+	int getHealth();
+	int getResources();
+	void setHealth(int);
+	void setResources(int);
 };
 #endif

@@ -13,10 +13,11 @@ protected:
 	int resourceCount;
 public:
 	planet();										//default constructor
-	planet(std::string name, int resourceCount, int rowCoordinateInput, int columnCoordinateInput);	//planet constructor with name, resource count, and x & y coordinates
-	virtual ~planet();										//default destructor
-
-	void destroyPlanet();							//destroy planet functions if resources depleted
-	int getSize();
+	planet(std::string, int, int, int);				//planet constructor with name, resource count, and x & y coordinates
+	~planet();										//default destructor
+	int getHealth();
+	int getResources();
+	void setHealth(int);
+	void setResources(int);
 };
 #endif

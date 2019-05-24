@@ -12,8 +12,11 @@
 class meteor : public astroObjects {
 public:
 	meteor();
-	meteor(int size, int rowCoordinate, int columnCoordinate);
-	virtual ~meteor();
-	int getSize();
+	meteor(int, int, int);
+	~meteor();
+	int getHealth();
+	int getResources();
+	void setHealth(int);
+	void setResources(int);
 };
 #endif

@@ -6,10 +6,10 @@ gunship::gunship() : spaceship() {
 	//default gunship constructor equals spacceship default constructor
 }
 
-gunship::gunship(std::string gsName, float  gsFuel) : spaceship(gsName, gsFuel) {
+gunship::gunship(std::string gsName, int gsHealth, int  gsFuel) : spaceship(gsName, gsHealth, gsFuel) {
 	//spaceship constructor with defined name, health & fuel
 	name = gsName;
-	hullHealth = 20;
+	hullHealth = gsHealth;
 	fuel = gsFuel;
 	rowCoordinate = 0;
 	columnCoordinate = 0;
@@ -20,6 +20,18 @@ gunship::~gunship() {
 	//default gunship destructor
 }
 
-int gunship::getSize() {
-	return size;
+int gunship::getHealth() {
+	return hullHealth;
+}
+
+int gunship::getResources() {
+	return fuel;
+}
+
+void gunship::setHealth(int health) {
+	hullHealth = (hullHealth + health);
+}
+
+void gunship::setResources(int ssFuel) {
+	fuel = (fuel + ssFuel);
 }

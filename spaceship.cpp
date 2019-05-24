@@ -12,10 +12,10 @@ spaceship::spaceship() {
 	ID = 's';
 }
 
-spaceship::spaceship(std::string ssName, float ssFuel) {
+spaceship::spaceship(std::string ssName, int ssHullHealth, int ssFuel) {
 	//spaceship constructor with defined name, health & fuel
 	name = ssName;
-	hullHealth = 10;
+	hullHealth = ssHullHealth;
 	fuel = ssFuel;
 	rowCoordinate = 0;
 	columnCoordinate = 0;

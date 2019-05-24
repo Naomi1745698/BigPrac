@@ -118,11 +118,11 @@ int main()
 
 	//spaceship(std::string name, int fuel);
 	spaceship *playerShip;
-	if(spaceshipType == 1){
-		playerShip = new gunship(spaceshipName,mapSize);
+	if(spaceshipType == 1) {
+		playerShip = new gunship(spaceshipName,10,mapSize);
 	}
-	if(spaceshipType == 2){
-	playerShip = new racer(spaceshipName,mapSize);
+	if(spaceshipType == 2) {
+		playerShip = new racer(spaceshipName,5,mapSize);
 	}
 	//racer or gunship type ship to be input by user 
 	//spaceship *playerShip = new racer();
@@ -149,9 +149,9 @@ int main()
 
 
 	while(keepPlaying) {
-		//freshScreen();
-		spaceMap.printMap();		//space map print
-		//spaceMap.interactionCheck();
+		spaceMap.printMap();			//space map print
+		spaceMap.printShipStatus();
+		spaceMap.interactionCheck();
 
 		//spaceship movement options by user integer input
 		std::cout << "Navigate by entering options 1 - 5: " << std::endl;

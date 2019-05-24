@@ -43,6 +43,11 @@ char astroObjects::getID() {
 	return ID;
 }
 
+//function to return object name
+std::string astroObjects::getName() {
+	return name;
+}
+
 astroObjects::~astroObjects() {
 	//default astroObjects destructor
 }

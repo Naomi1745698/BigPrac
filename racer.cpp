@@ -7,10 +7,10 @@ racer::racer() : spaceship() {
 }
 
 
-racer::racer(std::string rsName, float  rsFuel) : spaceship(rsName, rsFuel) {
+racer::racer(std::string rsName, int rsHealth, int rsFuel) : spaceship(rsName, rsFuel, rsFuel) {
 	//spaceship constructor with defined name, health & fuel
 	name = rsName;
-	hullHealth = 10;
+	hullHealth = rsHealth;
 	fuel = rsFuel;
 	rowCoordinate = 0;
 	columnCoordinate = 0;
@@ -21,6 +21,18 @@ racer::~racer() {
 	//default racer destructor
 }
 
-int racer::getSize() {
-	return size;
+int racer::getHealth() {
+	return hullHealth;
+}
+
+int racer::getResources() {
+	return fuel;
+}
+
+void racer::setHealth(int health) {
+	hullHealth = (hullHealth + health);
+}
+
+void racer::setResources(int ssFuel) {
+	fuel = (fuel + ssFuel);
 }

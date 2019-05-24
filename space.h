@@ -38,6 +38,11 @@ public:
 	void moveDown();
 	void moveLeft();
 	void moveRight();
+	void meteorMoveControl();
+	void moveMeteorUp();
+	void moveMeteorDown();
+	void moveMeteorLeft();
+	void moveMeteorRight();
 	void interactionCheck();
 	void printShipStatus();
 };

@@ -112,22 +112,25 @@ void space::interactionCheck() {
 	//Colums = j
 	//inverted the rows to consider map from bottom left instead of top right
 	//loops to check through every array location of meteor, planet and spaceship maps and call appropriate interaction functions
-	
+
 	for (int i = m_mapSize - 1; i > -1; i--) {
 		for (int j = 0; j < m_mapSize; j++) {
-			if (meteorMap[i][j] != NULL && planetMap[i][j] == NULL && spaceshipMap[i][j] != NULL) {	//pointers to meteor and spaceship in same location
-				std::cout << " " << meteorMap[i][j]->getID() << spaceshipMap[i][j]->getID();
+			if (meteorMap[i][j] != NULL && planetMap[i][j] == NULL && spaceshipMap[i][j] != NULL) {			//pointers to meteor and spaceship in same location
+				spaceshipMap[i][j]->setHealth(-1 * meteorMap[i][j]->getHealth());
+				delete (meteor*)meteorMap[i][j];
+				meteorMap[i][j] = NULL;
 			}
 			else if (meteorMap[i][j] == NULL && planetMap[i][j] != NULL && spaceshipMap[i][j] != NULL) {	//pointers to planet and spaceship in same location
-				std::cout << " " << planetMap[i][j]->getID() << spaceshipMap[i][j]->getID();
+				std::cout << "You have safely landed on planet " << planetMap[i][j]->getName() << (rand()%150) << std::endl;
+				std::cout << " " << planetMap[i][j]->getResources() << spaceshipMap[i][j]->getID();
 			}
 			else if (meteorMap[i][j] != NULL && planetMap[i][j] != NULL && spaceshipMap[i][j] != NULL) {			//pointers to meteor, planet and spaceship in same location
 				std::cout << meteorMap[i][j]->getID() << planetMap[i][j]->getID() << spaceshipMap[i][j]->getID();
 			}
 		}
-		std::cout << std::endl;
+		//std::cout << std::endl;
 	}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 }
 
 space::~space() {
@@ -248,7 +251,113 @@ void space::moveRight() {
 	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
 }
 
+
+//meteor movement control
+void space::meteorMoveControl() {
+	/*
+	int moveType = rand() % 4;
+
+	switch (moveType) {
+		case 0:
+	}
+
+	*/
+}
+
+//meteor movement functions
+
+//function to move object up one row (increase y coordinate)
+void space::moveMeteorUp() {
+	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
+
+	int rowCoordinate = playerShip->getRowCoordinate();			//get row and column coordinate values from playerShip object
+	int columnCoordinate = playerShip->getColumnCoordinate();
+
+	if (rowCoordinate != (m_mapSize - 1))	{								//edge of space (boundary) check
+		if (spaceshipMap[rowCoordinate+1][columnCoordinate] == NULL) {		//if space is empty within map (NULL), move object up
+			temp = spaceshipMap[rowCoordinate+1][columnCoordinate]; 
+			spaceshipMap[rowCoordinate+1][columnCoordinate] = spaceshipMap[rowCoordinate][columnCoordinate];
+			spaceshipMap[rowCoordinate][columnCoordinate] = temp;
+			rowCoordinate = (rowCoordinate + 1);						//update object row coordinate (y coordinate)
+		}
+	}
+	else {
+		std::cout << "You've reached the boundary of space! Turn back!" << std::endl;		//edge of space reached warning, applicable to spaceship only
+	}
+	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
+}
+
+
+//function to move object down one row (decrease y coordinate)
+void space::moveMeteorDown() {
+	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
+
+	int rowCoordinate = playerShip->getRowCoordinate();			//get row and column coordinate values from playerShip object
+	int columnCoordinate = playerShip->getColumnCoordinate();
+
+	if (rowCoordinate != 0) {												//edge of space (boundary) check
+		if (spaceshipMap[rowCoordinate-1][columnCoordinate] == NULL) {		//if space is empty within map (NULL), move object down
+			temp = spaceshipMap[rowCoordinate-1][columnCoordinate]; 
+			spaceshipMap[rowCoordinate-1][columnCoordinate] = spaceshipMap[rowCoordinate][columnCoordinate];
+			spaceshipMap[rowCoordinate][columnCoordinate] = temp;
+			rowCoordinate = (rowCoordinate - 1);						//update object row coordinate (y coordinate)
+		}
+	}
+	else {
+		std::cout << "You've reached the boundary of space! Turn back!" << std::endl;		//edge of space reached warning, applicable to spaceship only
+	}
+	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
+}
+
+
+//function to move object left one column (decrease x coordinate)
+void space::moveMeteorLeft() {
+	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
+
+	int rowCoordinate = playerShip->getRowCoordinate();			//get row and column coordinate values from playerShip object
+	int columnCoordinate = playerShip->getColumnCoordinate();
+	
+	if (columnCoordinate != 0) {											//edge of space (boundary) check
+		if (spaceshipMap[rowCoordinate][columnCoordinate-1] == NULL) {		//if space is empty within map (NULL), move object left
+			temp = spaceshipMap[rowCoordinate][columnCoordinate-1]; 
+			spaceshipMap[rowCoordinate][columnCoordinate-1] = spaceshipMap[rowCoordinate][columnCoordinate];
+			spaceshipMap[rowCoordinate][columnCoordinate] = temp;
+			columnCoordinate = (columnCoordinate - 1);					//update object column coordinate (x coordinate)
+		}
+	}
+	else {
+		std::cout << "You've reached the boundary of space! Turn back!" << std::endl;		//edge of space reached warning, applicable to spaceship only
+	}
+	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
+}
+
+//function to move object right one column (increase x coordinate)
+void space::moveMeteorRight() {
+	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
+
+	int rowCoordinate = playerShip->getRowCoordinate();			//get row and column coordinate values from playerShip object
+	int columnCoordinate = playerShip->getColumnCoordinate();
+
+	if (columnCoordinate != (m_mapSize - 1)) {								//edge of space (boundary) check
+		if (spaceshipMap[rowCoordinate][columnCoordinate+1] == NULL) {		//if space is empty within map (NULL), move object left
+			temp = spaceshipMap[rowCoordinate][columnCoordinate+1]; 
+			spaceshipMap[rowCoordinate][columnCoordinate+1] = spaceshipMap[rowCoordinate][columnCoordinate];
+			spaceshipMap[rowCoordinate][columnCoordinate] = temp;
+			columnCoordinate = (columnCoordinate + 1);					//update object column coordinate (x coordinate)
+		}
+	}
+	else {
+		std::cout << "You've reached the boundary of space! Turn back!" << std::endl;		//edge of space reached warning, applicable to spaceship only
+	}
+	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
+}
+
+
+
+
+
 void space::printShipStatus(){
-	//CALL BOTH FUEL, NAME AND HEALTH STATUS	
-	//PRINT IT OUT.
-};
+	std::cout << playerShip->getName() << " Status Report" << std::endl;
+	std::cout << "Health: " << playerShip->getHealth() << std::endl;
+	std::cout << "Fuel: " << playerShip->getResources() << std::endl;
+}

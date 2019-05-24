@@ -14,12 +14,14 @@
 class spaceship : public astroObjects {
 protected:
 	int hullHealth;
-	float fuel;
+	int fuel;
 public:
 	spaceship();
-	spaceship(std::string name, float fuel);
-	virtual ~spaceship();
-	friend int geFuel();
-	virtual int getSize() = 0;
+	spaceship(std::string, int, int);
+	~spaceship();
+	virtual int getHealth() = 0;
+	virtual int getResources() = 0;
+	virtual void setHealth(int) = 0;
+	virtual void setResources(int) = 0;
 };
 #endif

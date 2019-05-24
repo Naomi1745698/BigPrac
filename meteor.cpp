@@ -22,6 +22,18 @@ meteor::~meteor() {
 
 }
 
-int meteor::getSize() {
+int meteor::getHealth() {
 	return size;
+}
+
+int meteor::getResources() {
+	//not currently required, function inserted due to virtual function in astroObjects
+}
+
+void meteor::setHealth(int mSize) {
+	size = (size + mSize);
+}
+
+void meteor::setResources(int ssFuel) {
+	//not currently required, function inserted due to virtual function in astroObjects
 }
