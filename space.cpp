@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "space.h"
-#include "astroObjects.h"
-#include "meteor.h"
-#include "spaceship.h"
-#include "planet.h"
 #include "gunShip.h"
 #include "racer.h"
 

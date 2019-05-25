@@ -9,12 +9,11 @@
 	public:
 		meteor();
 		meteor(int mSize, int rowCoordinateInput, int columnCoordinateInput);
-		
+		int getHealth();
+		int getResources();					//dont use, just here because the virtual function
+		void setHealth(int mSize);
+		void setResources(int ssFuel);		//dont use, just here because the virtual function
 		~meteor();
 
-		int getHealth();
-		int getResources();
-		void setHealth(int);
-		void setResources(int);
 	};
 	#endif 

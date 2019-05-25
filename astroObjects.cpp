@@ -1,6 +1,7 @@
 #include "astroObjects.h"
 #include <iostream>
 #include <string>
+using namespace std;
 
 //astroObjects constructor with ID = 0 (empty space)
 astroObjects::astroObjects() {
@@ -10,14 +11,14 @@ astroObjects::astroObjects() {
 
 //print name function (generic)
 void astroObjects::printName() {
-	std::cout << name << std::endl;
+	cout << name << endl;
 }
 
 
 //function to print object x & y coordinates
 void astroObjects::printLocation() {
-	std::cout << "X-Coordinate: " << columnCoordinate << std::endl;
-	std::cout << "Y-Coordinate: " << rowCoordinate << std::endl;
+	cout << "X-Coordinate: " << columnCoordinate << endl;
+	cout << "Y-Coordinate: " << rowCoordinate << endl;
 }
 
 //function to set row and column coordinates
@@ -44,7 +45,7 @@ char astroObjects::getID() {
 }
 
 //function to return object name
-std::string astroObjects::getName() {
+string astroObjects::getName() {
 	return name;
 }
 

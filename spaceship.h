@@ -4,7 +4,7 @@
 #include <string>
 
 //Spaceship class object
-//To be used as superclass to guunship and racer subclasses
+//To be used as superclass to gunship and racer subclasses
 //Possible abstract class
 //Polymorphism if needed by using spaceship pointers to gunship and racer objects (space class might cover this)
 
