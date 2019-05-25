@@ -1,15 +1,8 @@
-#include "meteor.h"
 #include <iostream>
 #include <stdlib.h>
+#include "meteor.h"
 
 
-	//setters
-	void setSize(int meteorSize);
-
-	//constructors
-	~meteor();
-
-//constructors
 meteor::meteor() {
 	//default meteor constructor
 	size = 1 + (rand() % 3);	//meteor size between 1 and 3 (random)
@@ -17,7 +10,6 @@ meteor::meteor() {
 	columnCoordinate = 1;
 	ID = 'm';
 }
-
 meteor::meteor(int mSize, int rowCoordinateInput, int columnCoordinateInput) {
 	//default meteor constructor
 	size = mSize;
@@ -25,17 +17,22 @@ meteor::meteor(int mSize, int rowCoordinateInput, int columnCoordinateInput) {
 	columnCoordinate = columnCoordinateInput;
 	ID = 'm';
 }
+meteor::~meteor() {
+}
 
-//getters
-int meteor::getSize() {
+
+int meteor::getHealth() {
 	return size;
 }
 
-//setters
-void meteor::setSize(int meteorSize){
-	size = meteorSize;
+int meteor::getResources() {
+	//not currently required, function inserted due to virtual function in astroObjects
 }
 
-
-meteor::~meteor() {
+void meteor::setHealth(int mSize) {
+	size = (size + mSize);
 }
+
+void meteor::setResources(int ssFuel) {
+	//not currently required, function inserted due to virtual function in astroObjects
+} 
