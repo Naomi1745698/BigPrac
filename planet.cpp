@@ -5,7 +5,7 @@
 planet::planet() {
 	//default planet constructor
 	name = "P-";
-	resourceCount = 1 + (rand() % 3);	//planet resource count between 1 and 3 (random)
+	resourceCount = 2 + (rand() % 4);	//planet resource count between 2 and 5 (random)
 	rowCoordinate = 2;
 	columnCoordinate = 2;
 	ID = 'p';
