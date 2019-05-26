@@ -62,7 +62,7 @@ int main()
 				validNum = false;
 			}
 			//test for these conditions before setting mapSize.
-			if(atoi(enteredNum) > lowerMapLimit && atoi(enteredNum) < upperMapLimit && validNum == true){
+			if(atoi(enteredNum) > lowerMapLimit && atoi(enteredNum) < upperMapLimit+1 && validNum == true){
 				mapSize = atoi(enteredNum); //define space (map) size as grid (x*y)
 				checkingInput = false;
 			}else{
