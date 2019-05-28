@@ -8,7 +8,7 @@
 //Polymorphism displayed by using space type pointers to Meteor, Planet, and Spaceship objects
 
 
-class astroObjects {
+class astroObjects{
 protected:
 	std::string name;
 	int size;
