@@ -11,7 +11,7 @@ space::space(int mapSize, astroObjects* ship) {
 	m_mapSize = mapSize;
 
 	meteorCount = 0;
-	maxMeteorCount = 2 * (m_mapSize + (rand() % m_mapSize));		//random number of meteors generated based on map size
+	maxMeteorCount =  (m_mapSize + (rand() % m_mapSize));		//random number of meteors generated based on map size
 	planetCount = 0;
 	maxPlanetCount = 1 + (rand() % m_mapSize);		//random number of planets generated based on map size
 
@@ -29,9 +29,9 @@ space::space(int mapSize, astroObjects* ship) {
 	}
 
 	while (meteorCount < maxMeteorCount) {							//loop to generate meteor objects
-		row = rand() % m_mapSize;
+		row = rand() %  m_mapSize;
 		column = rand() % m_mapSize;
-		if (meteorMap[row][column] == NULL) {
+		if (meteorMap[row][column] == NULL || ( row != 0 && column != 0 ) ) {	//stops the player ship from starting in the same spot as a meteor
 			astroObjects* m1 = new meteor;
 			meteorMap[row][column] = m1;								//random, dynamic allocation to meteor map
 			m1->setCoordinate(row, column);								//set meteor coordinates
@@ -42,7 +42,7 @@ space::space(int mapSize, astroObjects* ship) {
 	while (planetCount < maxPlanetCount) {							//loop to generate planet objects
 		row = rand() % m_mapSize;
 		column = rand() % m_mapSize;
-		if (planetMap[row][column] == NULL) {
+		if (planetMap[row][column] == NULL || ( row+m_mapSize != 0 && column != 0 ) ) {	//stops the player ship from starting in the same spot as a planet
 			astroObjects* p1 = new planet;
 			planetMap[row][column] = p1;								//random, dynamic allocation to planet map
 			p1->setCoordinate(row, column);								//set planet coordinates
@@ -60,18 +60,16 @@ space::space(int mapSize, astroObjects* ship) {
 
 //print map function
 //output varies dependent on whether different objects are located within the same space
-
 //screen clear function still required
-
 void space::printMap() {
 	//Rows = i
 	//Colums = j
 	//inverted the rows to print from bottom left instead of top right
 	//loops to check through every array location of meteor, planet and spaceship maps and vary printed output based on astroObject combination
 	
-	//int amount = 3;
-	for(int i = 0; i < 3;i++) {
-		std::cout << "\n\n\n\n\n\n\n\n\n\n" << std::endl;
+	//leaves a gap
+	for(int i = 0; i < 20;i++) {
+		std::cout << "\n" << std::endl;
 	}
 
 	std::cout << "-";
@@ -96,13 +94,13 @@ void space::printMap() {
 				std::cout << " " << "(" << " " << ")" << " " << "|";
 			}
 			else if (meteorMap[i][j] == NULL && planetMap[i][j] == NULL && spaceshipMap[i][j] != NULL) {	//pointer to spaceship only
-				std::cout << " " << " " << "^" << " " << " " << "|";
+				std::cout << " " << "/" << "^" << "\\" << " " << "|";
 			}
 			else if (meteorMap[i][j] != NULL && planetMap[i][j] != NULL && spaceshipMap[i][j] == NULL) {	//pointers to meteor and planet in same location
 				std::cout << "o-" << " " << "()" << "|";
 			}
 			else if (meteorMap[i][j] != NULL && planetMap[i][j] == NULL && spaceshipMap[i][j] != NULL) {	//pointers to meteor and spaceship in same location
-				std::cout << " " << "^" << "o--" << "|";
+				std::cout << "^" << " " << "o-" << "|";
 			}
 			else if (meteorMap[i][j] == NULL && planetMap[i][j] != NULL && spaceshipMap[i][j] != NULL) {	//pointers to planet and spaceship in same location
 				std::cout << " " << "(" << "^" << ")" << " " << "|";
@@ -118,7 +116,7 @@ void space::printMap() {
 		}
 		std::cout << std::endl;
 	}
-	std::cout << "Key:    ^ = player ship    o-- = meteor (watch out!)    ( ) = planet (refuel / repair ship)    X = destination" << std::endl << std::endl;
+	std::cout << "Key:\n     ^ = player ship\n     o-- = meteor (watch out!)\n     ( ) = planet (refuel / repair ship)\n     X = destination\n" << std::endl;
 }
 
 
@@ -177,7 +175,7 @@ void space::interactionCheck() {
 								planetMap[i][j]->setResources(-1);
 								break;
 							case 3:						//refuel ship options
-								spaceshipMap[i][j]->setResources(1);
+								spaceshipMap[i][j]->setResources(2);
 								planetMap[i][j]->setResources(-1);
 								break;
 							default:
@@ -186,64 +184,15 @@ void space::interactionCheck() {
 						if (planetMap[i][j]->getResources() == 0) {		//planet resource depletion check
 							std::cout << std::endl << "You've used all the planet's resources! The planet has been destroyed!" << std::endl;
 							std::cout << "A great disturbance was felt across space, as millions of voices cried out in terror and were suddenly silenced." << std::endl << std::endl;
-							delete (planet*)planetMap[i][j];			//planet destroyed (deleted) on resource depletion
+							delete (planet*)planetMap[i][j];			//planet destroyed (deleted) on resource depletion - is removed from map in the next turn
 							planetMap[i][j] = NULL;
+
 						}
 					}
 				}
 			}
 	}
 }
-
-
-/*
-//spaceship movement control
-bool space::spaceshipMoveControl() {
-
-	int moveShip = 5;				//use movement input integer
-	bool inputCheck = true;
-
-	std::cout << "Navigate by entering options 1 - 5: " << std::endl;
-	std::cout << "Enter 8 to move up" << std::endl;
-	std::cout << "Enter 2 to move down" << std::endl;
-	std::cout << "Enter 4 to move left" << std::endl;
-	std::cout << "Enter 6 to move right" << std::endl;
-	std::cout << "Enter 5 to remain still" << std::endl;
-	std::cout << "Enter 0 to end game" << std::endl;
-	std::cin >> moveShip;
-	
-	while(inputCheck) {
-		if(std::cin.fail()) {
-			std::cin.clear();
-			std::cin.ignore(50,'\n');
-			std::cout << "Invalid entry. Please enter valid movement options: ";		//check to ensure valid integer input
-			std::cin >> moveShip;
-		}
-		if(!std::cin.fail())
-		inputCheck = false;
-	}
-	
-	switch (moveShip) {
-		case 8: moveUp();
-			break;
-		case 4: moveLeft();
-			break;
-		case 5:
-			break;
-		case 6: moveRight();
-			break;
-		case 2: moveDown();
-			break;
-		case 0:
-			std::cout << "Game over!" << std::endl;
-			return false;
-			break;
-		default:
-			std::cout << "Invalid entry. Please enter valid movement options: " << std::endl;
-			break;
-	}
-}
-*/
 
 
 //function to move object up one row (increase y coordinate)
@@ -268,7 +217,6 @@ void space::moveUp() {
 	playerShip->setResources(-1);										//update playerShip fuel
 }
 
-
 //function to move object down one row (decrease y coordinate)
 void space::moveDown() {
 	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
@@ -290,7 +238,6 @@ void space::moveDown() {
 	playerShip->setCoordinate(rowCoordinate,columnCoordinate);			//update playerShip new coordinate
 	playerShip->setResources(-1);										//update playerShip fuel
 }
-
 
 //function to move object left one column (decrease x coordinate)
 void space::moveLeft() {
@@ -346,7 +293,7 @@ void space::meteorMoveControl() {
 	for (int i = m_mapSize - 1; i > -1; i--) {		//loops to search through meteor map
 		for (int j = 0; j < m_mapSize; j++) {
 			if (meteorMap[i][j] != NULL) {			//check to find and apply movement to generated meteor objects only
-				meteorMove = rand() % 4;
+				meteorMove = rand() % 4;			//random movement around map
 				tempMeteor = meteorMap[i][j];
 				switch (meteorMove) {
 						case 0: moveMeteorUp(tempMeteor);
@@ -363,6 +310,7 @@ void space::meteorMoveControl() {
 		}
 	}
 }
+
 
 //meteor movement functions
 
@@ -384,7 +332,6 @@ void space::moveMeteorUp(astroObjects* tempMeteor) {
 	tempMeteor->setCoordinate(rowCoordinate,columnCoordinate);			//update meteor coordinate
 }
 
-
 //function to move object down one row (decrease y coordinate)
 void space::moveMeteorDown(astroObjects* tempMeteor) {
 	astroObjects* temp;											//temporary astroObjects pointer to enable swapping of objects
@@ -402,7 +349,6 @@ void space::moveMeteorDown(astroObjects* tempMeteor) {
 	}
 	tempMeteor->setCoordinate(rowCoordinate,columnCoordinate);			//update meteor coordinate
 }
-
 
 //function to move object left one column (decrease x coordinate)
 void space::moveMeteorLeft(astroObjects* tempMeteor) {
@@ -441,7 +387,6 @@ void space::moveMeteorRight(astroObjects* tempMeteor) {
 }
 
 
-
 //function to print status of ship (name, health and fuel)
 void space::printShipStatus(){
 	std::cout << "##############################" << std::endl;
@@ -457,11 +402,10 @@ void space::printShipStatus(){
 	std::cout << std::endl << "##############################" << std::endl << std::endl;
 }
 
-
 //check if spaceship has reached destination (top right map corner)
 bool space::checkWinningCondition() {
 	if (destinationReached == true) {
-		std::cout << std::endl << "You have safely reached your destination!" << std::endl << "Game over!" << std::endl;
+		std::cout << std::endl << "Congradulations!\nYou have safely reached your destination!" << std::endl << "Game over!\n" << std::endl;
 	}
 	return destinationReached;
 }
@@ -479,7 +423,7 @@ bool space::checkShipStatus() {
 	return destinationReached;
 }
 
-
+//function to delete the map via loop
 void space::deleteMap() {
 	//memory clean-up
 
@@ -512,35 +456,7 @@ void space::deleteMap() {
 	delete[] spaceshipMap;
 }
 
-
 space::~space() {
-/*	//memory clean-up
+	//the default astroObjects destructor :D
 
-	//loops to delete randomly generted astroObjects and playership
-	//only if space is not NULL (nothing to delete in NULL space)
-	for (int i = 0; i < m_mapSize; i++) {
-		for (int j = 0; j < m_mapSize; j++) {
-    		if (meteorMap[i][j] != NULL) {
-    			delete meteorMap[i][j];
-    		}
-    		
-    		if (planetMap[i][j] != NULL) {
-    			delete planetMap[i][j];
-    		}
-    		
-    		if (spaceshipMap[i][j] != NULL) {
-    			delete spaceshipMap[i][j];
-    		}
-    	}
-	}
-	
-	//delete 2-D map arrays
-	for (int i = 0; i < m_mapSize; i++) {
-    	delete[] meteorMap[i];
-    	delete[] planetMap[i];
-    	delete[] spaceshipMap[i];
-	}
-	delete[] meteorMap;
-	delete[] planetMap;
-	delete[] spaceshipMap;*/
 }

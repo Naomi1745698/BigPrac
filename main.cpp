@@ -12,14 +12,34 @@
 #include <cstring>
 #include <cctype>
 //Spaceship Game!!
-//Version:	0.6
-//Date:		25-May-2019
+//Version:	0.7
+//Date:		29-May-2019
 //Status: 	COMPILES
 
+#define UP 3
+#define DOWN 2
+#define RIGHT 5
+#define LEFT 4
+
+
+//time delay function to have an intro slide (Set to 0.1 seconds so input can be integers)
+void delay(unsigned int deci){
+  deci = deci*100000;
+  clock_t goal = deci + clock();
+  while (goal > clock());
+}
+
+//function that leaves a gap
+void gap (int distance){
+	for(int i = 0; i < distance;i++) {
+		std::cout << "\n" << std::endl;
+	}
+}
 
 int main()
 {
 	//Testing functions
+
 	//test Tester = test();
 	//Tester.gunShipTesting();
 	//Tester.racerTesting();
@@ -28,13 +48,31 @@ int main()
 	//Tester.mapTesting();
 	//Tester.boundaryTesting();
 
+
 	int mapSize;					//space size variable as user input
 	int lowerMapLimit = 5;			//upper and lower map limits
 	int upperMapLimit = 20;
 	int moveShip = 5;
 	bool newGame = true;
 
-	std::cout << std::endl << "OOP SPACEGAME!!!" << std::endl << std::endl;
+	gap(30);
+
+	//intro text!
+	std::cout << "Hello.\n" << std::endl;
+	delay (10);
+	std::cout << "You are about to enter into a dangerous new realm in space.\n" << std::endl;
+	delay (25);
+	std::cout << "Your mission is to get to the other side of the board.\n" << std::endl;
+	delay (20);
+	std::cout << "Try to avoid meteors as they will harm your ship.\n" << std::endl;
+	delay (20);
+	std::cout << "Visit planets to gather resources to help you on your journey.\n" << std::endl;
+	delay (25);
+	std::cout << "Be wary about using all the resouces on a planet, however.\n" << std::endl;
+	delay (25);
+	std::cout << "Best of luck. Press anything to continue.\n" << std::endl;
+	std::cin.ignore();
+
 
 	std::string mapSizeInput;
 	char Word[10];
@@ -45,7 +83,7 @@ int main()
 		bool checkingInput = true;
 		bool validNum = true;
 		while(checkingInput){
-			std::cout << "Enter map grid size from 5 to 20 (e.g. '10' = 10x10): ";		
+			std::cout << "\n\nEnter map grid size from 6 to 20 (e.g. '10' = 10x10): ";		
 			std::cin >> mapSizeInput;
 			//Creates a char array storing the entries of mapSizeInput.
 			int inputwordlength = mapSizeInput.size()+1;
@@ -74,7 +112,7 @@ int main()
 				mapSize = atoi(enteredNum); //define space (map) size as grid (x*y)
 				checkingInput = false;
 			}else{
-				std::cout << "Warning, please enter a integer in the range from 5 to 20" << std::endl;
+				std::cout << "Warning, please enter a integer in the range from 6 to 20" << std::endl;
 			}
 		}
 		//ignores previous entries that were used.
@@ -84,9 +122,10 @@ int main()
 		int spaceshipType = -1;
 		std::cout << std::endl << "Choose a spaceship type:" <<std::endl;
 		std::cout << "1: Gunship - stronger and has a 25% chance of destroying encontered meteors." << std::endl;
-		std::cout << "2: Racer - weaker than a Gunship, but is nimbler and has a 50% chance of dodging encountered meteors" << std::endl;	
-
+		std::cout << "2: Racer - weaker than a Gunship, but is nimbler and has a 50% chance of dodging encountered meteors" << std::endl;
+		std::cout << "\nEnter a number (1 or 2): ";
 		std::cin >> spaceshipType;
+
 		while(std::cin.fail() || spaceshipType < 1 || spaceshipType > 2){
 			//freshScreen();		
 			std::cin.clear();
@@ -110,26 +149,43 @@ int main()
 		}
 
 		std::cout << "Building your spaceship..." << std::endl;
-		
+		delay (5);
+		std::cout << "..." << std::endl;
+		delay (4);
+		std::cout << "......" << std::endl;
+		delay (4);
+		std::cout << "........." << std::endl;
+		delay (4);
 
-		//creating the map
+		gap(30);
+
+		cout << "      /==============================================\\"	<< endl;
+		cout << "      |                           o             *    |"		<< endl;
+		cout << "      |     *       *         *         .   o--      |"		<< endl;
+		cout << "      |                                              |"		<< endl;
+		cout << "      |               *           ( )                |"		<< endl;
+		cout << "      |        o                          *       o  |"		<< endl;
+		cout << "      |             ( )      o                       |"		<< endl;
+		cout << "      |  *                         *                 |"		<< endl;
+		cout << "      |   --o                          *      ( )    |"		<< endl;
+		cout << "      |          o   Welcome to space!       *       |"		<< endl;
+		cout << "      |    *                  .                      |"		<< endl;
+		cout << "      |                 *            .               |"		<< endl;
+		cout << "      |  --o       o            *               *    |"		<< endl;
+		cout << "      |                          ( )    *            |"		<< endl;
+		cout << "      |      .           o--        .                |"		<< endl;
+		cout << "      |          (_)           o            ( )      |"		<< endl;
+		cout << "      |                              *               |"		<< endl;
+		cout << "      |      *    --o                                |"		<< endl;
+		cout << "      |                 *         -          o       |"		<< endl;
+		cout << "      |                                              |"		<< endl;
+		cout << "      \\==============================================/"	<< endl;
+
+		gap(6);
+		delay (30);
+
+		//creating 0the map
 		space spaceMap(mapSize, playerShip);
-		
-
-		//Adding time delay of roughly 1 second. 
-		/*
-		time_t setTime;
-		setTime = time(NULL);
-		time_t currentTime;
-		bool Timeup = false;
-		while(Timeup == false){
-			currentTime = time(NULL);
-			if((currentTime - setTime > 1)){
-				Timeup = true;
-			}
-		};
-		*/
-		
 
 		//end game option 
 		bool keepPlaying = true;
@@ -140,7 +196,7 @@ int main()
 			
 			//spaceship movement options by user integer input
 			std::cout << "Navigate by entering one of the following options: " << std::endl;
-			std::cout << "                 8: move up" << std::endl;
+			std::cout << "                 8 move up" << std::endl;
 			std::cout << "4: move left     5: stay still     6: move right" << std::endl;
 			std::cout << "                 2: move down" << std::endl;
 			std::cout << "0: end game" << std::endl;
@@ -197,18 +253,19 @@ int main()
 					if(std::cin.fail() || newGame < 0 || newGame > 1) {
 						std::cin.clear();
 						std::cin.ignore(50,'\n');
-						std::cout << "Invalid entry. Please enter 1 to play again or 0 to exit.";		//check to ensure valid integer input
+						std::cout << "Invalid entry. Please enter 1 to play again or 0 to exit: ";		//check to ensure valid integer input
 						std::cin >> newGame;
 					}
 					if(!std::cin.fail())
 					inputCheck = false;
 					}
 				}
-			}
-			//spaceMap.~space();
-	}
 
+			}
+		//spaceMap.deleteMap();	//use a function as there are three separate maps that need to be deleted
+	}
 	std::cout << "Thanks for playing!" << std::endl;
 
 	return 0;
+
 }
