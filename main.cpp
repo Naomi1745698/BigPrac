@@ -37,7 +37,7 @@ int main()
 		bool checkingInput = true;
 		bool validNum = true;
 		while(checkingInput){
-			std::cout << "Enter map grid size from 10 to 20 (e.g. '10' = 10x10): ";		
+			std::cout << "Enter map grid size from 5 to 20 (e.g. '10' = 10x10): ";		
 			std::cin >> mapSizeInput;
 			//Creates a char array storing the entries of mapSizeInput.
 			int inputwordlength = mapSizeInput.size()+1;
@@ -66,7 +66,7 @@ int main()
 				mapSize = atoi(enteredNum); //define space (map) size as grid (x*y)
 				checkingInput = false;
 			}else{
-				std::cout << "Warning, please enter a integer in the range from 10 to 20" << std::endl;
+				std::cout << "Warning, please enter a integer in the range from 5 to 20" << std::endl;
 			}
 		}
 		//ignores previous entries that were used.
