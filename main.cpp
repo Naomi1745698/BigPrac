@@ -66,7 +66,7 @@ int main()
 				mapSize = atoi(enteredNum); //define space (map) size as grid (x*y)
 				checkingInput = false;
 			}else{
-				std::cout << "warning, please enter a integer in the range from 10 to 20" << std::endl;
+				std::cout << "Warning, please enter a integer in the range from 10 to 20" << std::endl;
 			}
 		}
 		//ignores previous entries that were used.
@@ -144,8 +144,8 @@ int main()
 			//Add clear library to it.
 			bool inputCheck = true;
 
-			while(inputCheck || moveShip < 0 || moveShip > 9) {
-				if(std::cin.fail()) {
+			while(inputCheck) {
+				if(std::cin.fail() || moveShip < 0 || moveShip > 9) {
 					std::cin.clear();
 					std::cin.ignore(50,'\n');
 					std::cout << "Invalid entry. Please enter valid movement options: ";		//check to ensure valid integer input
@@ -173,9 +173,9 @@ int main()
 					//std::cout << "Invalid entry. Please enter valid movement options: " << std::endl;
 					break;
 			}
+			spaceMap.meteorMoveControl();	//random automatic movement of meteor objects
 			spaceMap.printMap();			//space map print
 			spaceMap.printShipStatus();		//print ship stats (name, health and fuel)
-			spaceMap.meteorMoveControl();	//random automatic movement of meteor objects
 			spaceMap.interactionCheck();	//meteor / planet / spaceship interaction
 
 			if (spaceMap.checkWinningCondition() == true || spaceMap.checkShipStatus() == true || keepPlaying == false) {
@@ -197,6 +197,7 @@ int main()
 					}
 				}
 			}
+			//spaceMap.~space();
 	}
 
 	std::cout << "Thanks for playing!" << std::endl;

@@ -11,7 +11,7 @@ space::space(int mapSize, astroObjects* ship) {
 	m_mapSize = mapSize;
 
 	meteorCount = 0;
-	maxMeteorCount = 1 + (rand() % m_mapSize);		//random number of meteors generated based on map size
+	maxMeteorCount = 2 * (m_mapSize + (rand() % m_mapSize));		//random number of meteors generated based on map size
 	planetCount = 0;
 	maxPlanetCount = 1 + (rand() % m_mapSize);		//random number of planets generated based on map size
 
@@ -31,19 +31,23 @@ space::space(int mapSize, astroObjects* ship) {
 	while (meteorCount < maxMeteorCount) {							//loop to generate meteor objects
 		row = rand() % m_mapSize;
 		column = rand() % m_mapSize;
-		astroObjects* m1 = new meteor;
-		meteorMap[row][column] = m1;								//random, dynamic allocation to meteor map
-		m1->setCoordinate(row, column);								//set meteor coordinates
-		meteorCount++;
+		if (meteorMap[row][column] == NULL) {
+			astroObjects* m1 = new meteor;
+			meteorMap[row][column] = m1;								//random, dynamic allocation to meteor map
+			m1->setCoordinate(row, column);								//set meteor coordinates
+			meteorCount++;
+		}
 	}
 
 	while (planetCount < maxPlanetCount) {							//loop to generate planet objects
 		row = rand() % m_mapSize;
 		column = rand() % m_mapSize;
-		astroObjects* p1 = new planet;
-		planetMap[row][column] = p1;								//random, dynamic allocation to planet map
-		p1->setCoordinate(row, column);								//set planet coordinates
-		planetCount++;
+		if (planetMap[row][column] == NULL) {
+			astroObjects* p1 = new planet;
+			planetMap[row][column] = p1;								//random, dynamic allocation to planet map
+			p1->setCoordinate(row, column);								//set planet coordinates
+			planetCount++;
+		}
 	}
 
 
@@ -135,7 +139,7 @@ void space::interactionCheck() {
 			for (int j = 0; j < m_mapSize; j++) {	//pointers to planet and spaceship in same location
 				if (meteorMap[i][j] != NULL && planetMap[i][j] == NULL && spaceshipMap[i][j] != NULL) {			//pointers to meteor and spaceship in same location
 					if (playerShip->getID() == 'g' && meteorDestroyCheck == 0) {															//if using gunship, meteor destroyed
-						std::cout << "###   Meteor targeted ....... meteor destroyed!   ###" << std::endl;
+						std::cout << "###   Meteor targeted ....... meteor destroyed!   ###" << std::endl << std::endl;
 						delete (meteor*)meteorMap[i][j];															//meteor destroyed (deleted) on impact
 						meteorMap[i][j] = NULL;	
 					}
@@ -144,7 +148,7 @@ void space::interactionCheck() {
 					}
 					else {
 						spaceshipMap[i][j]->setHealth(-1 * meteorMap[i][j]->getHealth());							//apply damage to spaceship based on meteor size
-						std::cout << std::endl << "###   Meteor encountered - you've been hit!! " << meteorMap[i][j]->getHealth() << " damage taken to the hull! ###" << std::endl;
+						std::cout << std::endl << "###   Meteor encountered - you've been hit!! " << meteorMap[i][j]->getHealth() << " damage taken to the hull! ###" << std::endl << std::endl;
 						delete (meteor*)meteorMap[i][j];															//meteor destroyed (deleted) on impact
 						meteorMap[i][j] = NULL;
 					}
@@ -169,11 +173,11 @@ void space::interactionCheck() {
 
 						switch (action) {				//spaceship repair or refuel action checks
 							case 1:						//repair ship option
-								spaceshipMap[i][j]->setHealth(planetMap[i][j]->getResources());
+								spaceshipMap[i][j]->setHealth(1);
 								planetMap[i][j]->setResources(-1);
 								break;
 							case 3:						//refuel ship options
-								spaceshipMap[i][j]->setResources(planetMap[i][j]->getResources());
+								spaceshipMap[i][j]->setResources(1);
 								planetMap[i][j]->setResources(-1);
 								break;
 							default:
@@ -181,7 +185,7 @@ void space::interactionCheck() {
 						}
 						if (planetMap[i][j]->getResources() == 0) {		//planet resource depletion check
 							std::cout << std::endl << "You've used all the planet's resources! The planet has been destroyed!" << std::endl;
-							std::cout << "A great disturbance was felt across space, as millions of voices cried out in terror and were suddenly silenced." << std::endl;
+							std::cout << "A great disturbance was felt across space, as millions of voices cried out in terror and were suddenly silenced." << std::endl << std::endl;
 							delete (planet*)planetMap[i][j];			//planet destroyed (deleted) on resource depletion
 							planetMap[i][j] = NULL;
 						}
@@ -442,9 +446,15 @@ void space::moveMeteorRight(astroObjects* tempMeteor) {
 void space::printShipStatus(){
 	std::cout << "##############################" << std::endl;
 	std::cout << "#   " << playerShip->getName() << " Status Report" << std::endl;
-	std::cout << "#   Health: " << playerShip->getHealth() << std::endl;
-	std::cout << "#   Fuel: " << playerShip->getResources() << std::endl;
-	std::cout << "##############################" << std::endl;
+	std::cout << "#   Health: " << playerShip->getHealth();
+	if (playerShip->getHealth() < 3) {
+		std::cout << "  # Warning: Health Low";
+	}
+	std::cout << std::endl << "#   Fuel: " << playerShip->getResources();
+	if (playerShip->getResources() < (m_mapSize / 1.5)) {
+		std::cout << "  # Warning: Fuel Low";
+	}
+	std::cout << std::endl << "##############################" << std::endl << std::endl;
 }
 
 
@@ -458,7 +468,7 @@ bool space::checkWinningCondition() {
 
 //check if spaceship has used all fuel or has been too damaged
 bool space::checkShipStatus() {
-	if (playerShip->getHealth() == 0) {
+	if (playerShip->getHealth() < 1) {
 		std::cout << std::endl << "Your ship has been destroyed!" << std::endl << "Game over!" << std::endl << std::endl;
 		destinationReached = true;
 	}
@@ -470,7 +480,7 @@ bool space::checkShipStatus() {
 }
 
 
-space::~space() {
+void space::deleteMap() {
 	//memory clean-up
 
 	//loops to delete randomly generted astroObjects and playership
@@ -500,4 +510,37 @@ space::~space() {
 	delete[] meteorMap;
 	delete[] planetMap;
 	delete[] spaceshipMap;
+}
+
+
+space::~space() {
+/*	//memory clean-up
+
+	//loops to delete randomly generted astroObjects and playership
+	//only if space is not NULL (nothing to delete in NULL space)
+	for (int i = 0; i < m_mapSize; i++) {
+		for (int j = 0; j < m_mapSize; j++) {
+    		if (meteorMap[i][j] != NULL) {
+    			delete meteorMap[i][j];
+    		}
+    		
+    		if (planetMap[i][j] != NULL) {
+    			delete planetMap[i][j];
+    		}
+    		
+    		if (spaceshipMap[i][j] != NULL) {
+    			delete spaceshipMap[i][j];
+    		}
+    	}
+	}
+	
+	//delete 2-D map arrays
+	for (int i = 0; i < m_mapSize; i++) {
+    	delete[] meteorMap[i];
+    	delete[] planetMap[i];
+    	delete[] spaceshipMap[i];
+	}
+	delete[] meteorMap;
+	delete[] planetMap;
+	delete[] spaceshipMap;*/
 }
