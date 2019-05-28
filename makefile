@@ -8,8 +8,8 @@ CXXFLAGS = -Wall
 
 # ****************************************************
 
-spacegame: main.o astroObjects.o spaceship.o spaceship_gunship.o spaceship_racer.o meteor.o planet.o space.o
-	$(CXX) $(CXXFLAGS) -o spacegame main.o astroObjects.o meteor.o planet.o spaceship.o gunShip.o racer.o space.o
+spacegame: main.o astroObjects.o spaceship.o spaceship_gunship.o spaceship_racer.o meteor.o planet.o space.o test.o
+	$(CXX) $(CXXFLAGS) -o spacegame main.o astroObjects.o meteor.o planet.o spaceship.o gunShip.o racer.o space.o test.o
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
@@ -38,3 +38,5 @@ spaceship_racer.o: racer.cpp racer.h
 
 space.o: space.cpp space.h
 	$(CXX) $(CXXFLAGS) -c space.cpp
+test.o: test.cpp test.h
+	$(CXX) $(CXXFLAGS) -c test.cpp

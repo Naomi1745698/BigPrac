@@ -8,9 +8,8 @@
 #include "racer.h"
 #include "space.h"
 #include <ctime>
-
+#include "test.h"
 #include <cstring>
-#include <string>
 #include <cctype>
 //Spaceship Game!!
 //Version:	0.6
@@ -20,6 +19,15 @@
 
 int main()
 {
+	//Testing functions
+	//test Tester = test();
+	//Tester.gunShipTesting();
+	//Tester.racerTesting();
+	//Tester.planetTesting();
+	//Tester.meteorTesting();
+	//Tester.mapTesting();
+	//Tester.boundaryTesting();
+
 	int mapSize;					//space size variable as user input
 	int lowerMapLimit = 5;			//upper and lower map limits
 	int upperMapLimit = 20;
